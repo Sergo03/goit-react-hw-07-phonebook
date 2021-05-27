@@ -4,7 +4,7 @@ import Filter from './Filter/Filter'
 import Render from './Render/RenderContactList'
 import { connect } from 'react-redux'
 import * as operations from './redux/Contacts/operations'
-
+import * as selectors from './redux/Contacts/contacts-selectors'
 
 
 class App extends Component{
@@ -12,7 +12,6 @@ class App extends Component{
   
   componentDidMount() {
     this.props.fetchContacts()
-    
 }
 
 
@@ -21,7 +20,7 @@ class App extends Component{
     return (
       <div>
         {this.props.error&&<h1>Error,please try later</h1>}
-        {this.props.isLoadingTodos && <h1>Loading...</h1>}
+        {this.props.isLoadingContacts && <h1>Loading...</h1>}
         <h1>Phonebook</h1>
         <Form onSubmit={this.submitForm} />
          <h2>Contacts</h2>
@@ -34,8 +33,8 @@ class App extends Component{
 }
 
 const mapStateToProps = state => ({
-  isLoadingTodos: state.contacts.loading,
-  error:state.contacts.error
+  isLoadingContacts: selectors.getIsLoadingContacts(state),
+  error:selectors.getError(state)
 });
 const mapDispatchToProps = dispatch => ({
   fetchContacts:()=>dispatch(operations.fetchContact())

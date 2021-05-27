@@ -3,15 +3,15 @@ import PropsTypes from 'prop-types';
 import style from './Style.module.css'
 import {connect} from 'react-redux'
 import * as operations from '../redux/Contacts/operations'
-
+import * as selectors from '../redux/Contacts/contacts-selectors'
 
 
 
 class Form extends Component{
-    state = {
-      name: '',
-      number: ''
-    }
+  state = {
+    name: '',
+    number: ''
+  }
     
   handleinput = (e) => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value })
@@ -75,9 +75,9 @@ Form.propTypes = {
   onSubmit: PropsTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ contacts: { items } }) => ({
-  value:items
-}) 
+const mapStateToProps = (state) => ({
+  value: selectors.getItems(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => dispatch(operations.addContact(data)),

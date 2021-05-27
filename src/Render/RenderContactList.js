@@ -3,6 +3,7 @@ import PropsTypes from 'prop-types';
 import { connect } from 'react-redux'
 import * as operations from '../redux/Contacts/operations'
 import style from './Style.module.css'
+import * as selectors from '../redux/Contacts/contacts-selectors'
 
 const Render = ({ value, onDeleteContact }) => {
 
@@ -20,17 +21,8 @@ Render.propTypes = {
   onDeleteContact:PropsTypes.func.isRequired
 }
 
-
-const getVisibalContacts = (allContacts, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-
-  return allContacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter))
-}
-
-
-const mapStateToProps = ({ contacts: { items, filter } }) => ({
-   value:getVisibalContacts(items,filter)
+const mapStateToProps = (state) => ({
+   value:selectors.getVisibalContacts(state)
 })
 
 
